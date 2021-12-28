@@ -1,13 +1,15 @@
 'use strict';
 
-// Variables globales
+// Global variables
 const searchInput = document.querySelector('.js_input');
 const searchBtn = document.querySelector('.js_searchBtn');
 const resetBtn = document.querySelector('.js_resetBtn');
 const movieList = document.querySelector('.js_movieList');
 
-// Fetch al API
+// Fetch
 let dataAnime = [];
+let favMovies = [];
+
 function findMovie() {
   const inputValue = searchInput.value;
   fetch(`https://api.jikan.moe/v3/search/anime?q=${inputValue}`)
@@ -23,32 +25,21 @@ function findMovie() {
 }
 
 function renderAnimeList() {
+  // If everything goes right, then movies should show in the list
   movieList.innerHTML = '';
 
   for (const eachAnime of dataAnime) {
-    movieList.innerHTML += `<li>
+    // console.log(eachAnime.mal_id);
+
+    movieList.innerHTML += `<li class="js_listElement">
     <img src=${eachAnime.image_url} alt="Cover image" class="cover-img">
     <h2>${eachAnime.title}</h2></li>`;
   }
-  setPlaceholder();
+  addFavorite();
 }
 
-// function setPlaceholder() {
-//   const coverImgs = document.querySelectorAll('.cover-img');
-
-//   for (const eachImg of coverImgs) {
-//     eachImg.src = '';
-//     console.log(eachImg.src);
-
-//     if (eachImg.src === '') {
-//       console.log(eachImg);
-//       eachImg.src =
-//         'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
-//     }
-//   }
-// }
-
 function renderMessage() {
+  // Message displayed in case no results matched the search
   movieList.innerHTML =
     'No hay resultados para esta búsqueda, por favor introduzca otro nombre';
 }
@@ -64,4 +55,21 @@ function handleClickSearch(ev) {
   }
 }
 
+function addFavorite() {
+  // Selecting favorite movies
+  const allListElements = document.querySelectorAll('.js_listElement');
+
+  for (const eachLi of allListElements) {
+    eachLi.addEventListener('click', handleClickFavorite);
+  }
+}
+
+function handleClickFavorite(ev) {
+  // Pushing favorite movies into new array
+  favMovies.push(ev.currentTarget);
+
+  console.log(favMovies);
+}
+
+// Listening to user search
 searchBtn.addEventListener('click', handleClickSearch);
