@@ -74,8 +74,6 @@ function handleClickFavorite(ev) {
   const clickedAnime = ev.currentTarget;
   const clickedAnimeId = parseInt(ev.currentTarget.dataset.id);
 
-  console.dir(ev.currentTarget);
-
   clickedAnime.classList.add('faved');
   const favedAnime = dataAnime.find(
     (eachResult) => eachResult.mal_id === clickedAnimeId
@@ -98,7 +96,7 @@ function renderFavorites() {
   favMovies.innerHTML = '';
 
   for (const eachFavorite of dataFavorites) {
-    favMovies.innerHTML += `<li class="js_favoritesLi favorites-li">
+    favMovies.innerHTML += `<li class="js_favoritesLi favorites-li" data-id="${eachFavorite.mal_id}">
     <img src=${eachFavorite.image_url} alt="Cover image of ${eachFavorite.title}" class="faved-img">
     <h3>${eachFavorite.title}</h3>
     <i class="fas fa-star"></i>
@@ -106,6 +104,13 @@ function renderFavorites() {
     </li>`;
     // console.log(eachFavorite.image_url.includes('qm_50'));
   }
+
+  if (dataFavorites.length >= 1) {
+    favMovies.innerHTML +=
+      '<button class="js_deleteAllFavs">Delete All Favorites</button>';
+    deleteAllFavorites();
+  }
+  removeFavorite();
 }
 
 // Listening to user search
@@ -126,3 +131,47 @@ function getFromLS() {
 }
 
 getFromLS();
+
+// BONUS: Reset button
+function handleClickReset() {
+  searchInput.value = '';
+}
+
+resetBtn.addEventListener('click', handleClickReset);
+
+// BONUS: Remove favorite from list
+
+function removeFavorite() {
+  const allRemoveBtns = document.querySelectorAll('.js_closeBtn');
+
+  for (const eachRemoveBtn of allRemoveBtns) {
+    eachRemoveBtn.addEventListener('click', handleClickRemove);
+  }
+}
+
+function handleClickRemove(ev) {
+  const selectedFavElementId = parseInt(
+    ev.currentTarget.parentElement.dataset.id
+  );
+
+  const foundAnime = dataFavorites.find(
+    (eachAnime) => eachAnime.mal_id === selectedFavElementId
+  );
+
+  const foundAnimeIndex = dataFavorites.indexOf(foundAnime);
+
+  dataFavorites.splice(foundAnimeIndex, 1);
+  saveInLS();
+  renderFavorites();
+}
+
+function deleteAllFavorites() {
+  const deleteAllFavsBtn = document.querySelector('.js_deleteAllFavs');
+  deleteAllFavsBtn.addEventListener('click', handleClickDeleteAllFavs);
+}
+
+function handleClickDeleteAllFavs() {
+  dataFavorites = [];
+  saveInLS();
+  renderFavorites();
+}
