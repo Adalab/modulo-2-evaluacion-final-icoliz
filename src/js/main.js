@@ -12,7 +12,7 @@ let favMovies = [];
 
 function findMovie() {
   const inputValue = searchInput.value;
-  fetch(`https://api.jikan.moe/v3/search/anime?q=${inputValue}`)
+  fetch(`https://api.jikan.moe/v3/search/anime?q=${inputValue}&limit=15`)
     .then((response) => response.json())
     .then((data) => {
       dataAnime = data.results;
@@ -25,15 +25,16 @@ function findMovie() {
 }
 
 function renderAnimeList() {
-  // If everything goes right, then movies should show in the list
+  // If everything goes right, movies should show in the list
   movieList.innerHTML = '';
 
   for (const eachAnime of dataAnime) {
     // console.log(eachAnime.mal_id);
 
     movieList.innerHTML += `<li class="js_listElement">
-    <img src=${eachAnime.image_url} alt="Cover image" class="cover-img">
+    <img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="cover-img">
     <h2>${eachAnime.title}</h2></li>`;
+    // console.log(eachAnime.image_url.includes('qm_50'));
   }
   addFavorite();
 }

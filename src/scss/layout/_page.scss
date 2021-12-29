@@ -3,6 +3,19 @@ body {
   height: 100vh;
 }
 
-.prueba {
+.movies-section {
+  display: flex;
+  flex-direction: row;
+}
+
+.favorites {
+  width: 45%;
+  background-color: palegoldenrod;
+  margin: 5px;
+}
+
+.results {
+  width: 45%;
   background-color: pink;
+  margin: 5px;
 }
