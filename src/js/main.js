@@ -35,7 +35,7 @@ function renderAnimeList() {
     movieList.innerHTML += `<li class="js_resultsLi results-li" data-id="${eachAnime.mal_id}">
     <img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="result-img">
     <h3>${eachAnime.title}</h3>
-    <i class="far fa-star"></i>
+    <i class="fas fa-star"></i>
     </li>`;
     // console.log(eachAnime.image_url.includes('qm_50'));
   }
@@ -70,10 +70,11 @@ function addFavorite() {
 }
 
 function handleClickFavorite(ev) {
-  const clickedAnime = ev.currentTarget;
-
   // Finding the anime I'm clicking on in my dataAnime array through data-ID
+  const clickedAnime = ev.currentTarget;
   const clickedAnimeId = parseInt(ev.currentTarget.dataset.id);
+
+  console.dir(ev.currentTarget);
 
   clickedAnime.classList.add('faved');
   const favedAnime = dataAnime.find(
@@ -100,8 +101,8 @@ function renderFavorites() {
     favMovies.innerHTML += `<li class="js_favoritesLi favorites-li">
     <img src=${eachFavorite.image_url} alt="Cover image of ${eachFavorite.title}" class="faved-img">
     <h3>${eachFavorite.title}</h3>
-    <i class="far fa-star"></i>
-    <i class="far fa-times-circle"></i>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-times-circle js_closeBtn"></i>
     </li>`;
     // console.log(eachFavorite.image_url.includes('qm_50'));
   }
