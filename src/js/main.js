@@ -5,10 +5,11 @@ const searchInput = document.querySelector('.js_input');
 const searchBtn = document.querySelector('.js_searchBtn');
 const resetBtn = document.querySelector('.js_resetBtn');
 const movieList = document.querySelector('.js_movieList');
+const favMovies = document.querySelector('.js_favMovies');
 
 // Fetch
 let dataAnime = [];
-let favMovies = [];
+let dataFavorites = [];
 
 function findMovie() {
   const inputValue = searchInput.value;
@@ -24,16 +25,18 @@ function findMovie() {
     });
 }
 
+// Functions
 function renderAnimeList() {
   // If everything goes right, movies should show in the list
   movieList.innerHTML = '';
 
   for (const eachAnime of dataAnime) {
     // console.log(eachAnime.mal_id);
-
-    movieList.innerHTML += `<li class="js_listElement">
-    <img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="cover-img">
-    <h2>${eachAnime.title}</h2></li>`;
+    movieList.innerHTML += `<li class="js_resultsLi results-li" data-id="${eachAnime.mal_id}">
+    <img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="result-img">
+    <h3>${eachAnime.title}</h3>
+    <i class="far fa-star"></i>
+    </li>`;
     // console.log(eachAnime.image_url.includes('qm_50'));
   }
   addFavorite();
@@ -58,7 +61,7 @@ function handleClickSearch(ev) {
 
 function addFavorite() {
   // Selecting favorite movies
-  const allListElements = document.querySelectorAll('.js_listElement');
+  const allListElements = document.querySelectorAll('.js_resultsLi');
 
   for (const eachLi of allListElements) {
     eachLi.addEventListener('click', handleClickFavorite);
@@ -66,10 +69,40 @@ function addFavorite() {
 }
 
 function handleClickFavorite(ev) {
-  // Pushing favorite movies into new array
-  favMovies.push(ev.currentTarget);
+  const clickedAnime = ev.currentTarget;
 
-  console.log(favMovies);
+  // Finding the anime I'm clicking on in my dataAnime array through data-ID
+  const clickedAnimeId = parseInt(ev.currentTarget.dataset.id);
+
+  clickedAnime.classList.add('faved');
+  const favedAnime = dataAnime.find(
+    (eachResult) => eachResult.mal_id === clickedAnimeId
+  );
+  const savedAnime = dataFavorites.find(
+    (eachFaved) => eachFaved.mal_id === clickedAnimeId
+  );
+
+  if (savedAnime === undefined) {
+    // If the anime is NOT in dataFavorites array, push into dataFavorites array
+    dataFavorites.push(favedAnime);
+  }
+  // If the anime already is in dataFavorites array, nothing happens
+  renderFavorites();
+}
+
+function renderFavorites() {
+  // If everything goes right, favorite movies should show in the list
+  favMovies.innerHTML = '';
+
+  for (const eachFavorite of dataFavorites) {
+    favMovies.innerHTML += `<li class="js_favoritesLi favorites-li">
+    <img src=${eachFavorite.image_url} alt="Cover image of ${eachFavorite.title}" class="faved-img">
+    <h3>${eachFavorite.title}</h3>
+    <i class="far fa-star"></i>
+    <i class="far fa-times-circle"></i>
+    </li>`;
+    // console.log(eachFavorite.image_url.includes('qm_50'));
+  }
 }
 
 // Listening to user search
