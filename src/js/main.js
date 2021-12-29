@@ -49,6 +49,7 @@ function renderMessage() {
 }
 
 function handleClickSearch(ev) {
+  // Function that initializes everything the flow
   ev.preventDefault();
 
   if (searchInput.value === '') {
@@ -87,6 +88,7 @@ function handleClickFavorite(ev) {
     dataFavorites.push(favedAnime);
   }
   // If the anime already is in dataFavorites array, nothing happens
+  saveInLS();
   renderFavorites();
 }
 
@@ -107,3 +109,19 @@ function renderFavorites() {
 
 // Listening to user search
 searchBtn.addEventListener('click', handleClickSearch);
+
+// Local Storage
+function saveInLS() {
+  const dataFavObject = JSON.stringify(dataFavorites);
+  localStorage.setItem('favMovies', dataFavObject);
+}
+
+function getFromLS() {
+  const savedFavObject = localStorage.getItem('favMovies');
+  if (savedFavObject !== null) {
+    dataFavorites = JSON.parse(savedFavObject);
+  }
+  renderFavorites();
+}
+
+getFromLS();
