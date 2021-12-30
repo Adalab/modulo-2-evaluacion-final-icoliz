@@ -1,13 +1,143 @@
-.result-img {
-  width: 200px;
+.movies-section {
+  display: flex;
+  flex-direction: row;
+  min-height: 90vh;
+  padding-bottom: 20px;
 }
 
-.faved-img {
-  width: 120px;
+.favorites {
+  background-color: rgba($color: white, $alpha: 0.1);
+  width: 40%;
+  padding: 10px 20px 20px 20px;
+  &__title {
+    font-family: $openSans;
+    font-weight: 400;
+    font-size: 20px;
+    color: $mainMedium;
+    margin-bottom: 10px;
+  }
+  &__list {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.results {
+  width: 60%;
+  padding: 10px 20px;
+  &__title {
+    font-family: $openSans;
+    font-weight: 400;
+    font-size: 20px;
+    color: white;
+    margin-bottom: 10px;
+  }
+  &__list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+.movie {
+  background-color: rgba($color: white, $alpha: 0.1);
+  display: inline;
+  text-align: center;
+  width: 200px;
+  max-height: 360px;
+  padding-bottom: 10px;
+  margin: 15px;
+  &__img {
+    width: 194px;
+    height: 300px;
+    object-fit: cover;
+  }
+  &__title {
+    display: inline-block;
+    width: 200px;
+    height: 40px;
+    font-family: $openSans;
+    font-weight: 400;
+    font-size: 16px;
+    color: white;
+    padding: 0 10px;
+    margin: 5px 0;
+  }
+  &:hover {
+    box-shadow: 0px 0px 15px 5px rgba($color: $sand, $alpha: 0.5);
+    transition: box-shadow 0.1s ease;
+  }
+}
+
+.favmovie {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-top: 1.5px solid $darkGrey;
+  border-bottom: 1.5px solid $darkGrey;
+  &__img {
+    width: 100px;
+    border-radius: 5px;
+  }
+  &__title {
+    flex-grow: 1;
+    align-self: flex-start;
+    font-family: $openSans;
+    font-weight: 400;
+    font-size: 16px;
+    color: $mainPale;
+    padding: 0 20px;
+  }
+  &:hover .fa-times-circle {
+    transform: scale(1.05);
+    transition: transform 0.1s ease;
+  }
+}
+
+.delete-button {
+  align-self: center;
+  background-color: $darkGrey;
+  width: 200px;
+  height: 35px;
+  font-size: 16px;
+  color: gray;
+  margin: 0 5px;
+  border: none;
+  border-radius: 35px;
+  margin: 30px 0;
+  &:hover {
+    color: $sand;
+    transform: scale(1.05);
+    transition: color 0.5s ease, transform 0.2s ease;
+  }
+}
+
+.fa-trash-alt {
+  padding-right: 10px;
+}
+
+.fa-star {
+  color: rgba($color: $darkGrey, $alpha: 0.7);
+  position: absolute;
+  transform: translateX(160px);
+  padding: 5px;
+  font-size: 20px;
+  margin: 5px 0;
+}
+.fa-times-circle {
+  font-size: 30px;
+  color: rgba($color: $sand, $alpha: 0.5);
+  padding: 5px;
 }
 
 .faved {
-  background-color: rgba($color: aliceblue, $alpha: 0.5);
-  border: solid blue 5px;
-  color: blue;
+  background-color: rgba($color: $mainPale, $alpha: 0.2);
+  color: $mainIntense;
+  border: solid $mainIntense 3px;
+}
+
+.highlighted {
+  color: $mainIntense;
 }

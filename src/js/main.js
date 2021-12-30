@@ -38,14 +38,12 @@ function renderAnimeList() {
     // If a faved element is in results array too, show them with 'faved' class. If not, show it without the class.
     if (storedInFavorites.length !== 0) {
       // Length determines whether an array has content or not (content is the faved object)
-      movieList.innerHTML += `<li class="js_resultsLi results-li faved" data-id="${eachAnime.mal_id}"><img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="result-img">
-        <h3>${eachAnime.title}</h3>
-        <i class="fas fa-star"></i>
+      movieList.innerHTML += `<li class="js_resultsLi movie faved" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star highlighted"></i><img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="movie__img highlighted">
+        <h3 class="movie__title">${eachAnime.title}</h3>
         </li>`;
     } else {
-      movieList.innerHTML += `<li class="js_resultsLi results-li " data-id="${eachAnime.mal_id}"><img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="result-img">
-        <h3>${eachAnime.title}</h3>
-        <i class="fas fa-star"></i>
+      movieList.innerHTML += `<li class="js_resultsLi movie" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star"></i><img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="movie__img js_animeTitle">
+        <h3 class="movie__title">${eachAnime.title}</h3>
         </li>`;
     }
     // Set a placeholder if the image is a question mark
@@ -83,6 +81,9 @@ function addFavorite() {
 function handleClickFavorite(ev) {
   // Finding the anime I'm clicking on in my dataAnime array through data-ID
   const clickedAnime = ev.currentTarget;
+  const animeStar = ev.currentTarget.childNodes[0];
+  const animeTitle = ev.currentTarget.childNodes[3];
+
   const clickedAnimeId = parseInt(ev.currentTarget.dataset.id);
 
   const favedAnime = dataAnime.find(
@@ -96,10 +97,14 @@ function handleClickFavorite(ev) {
   if (savedAnime === undefined) {
     // 1. If the anime is NOT in dataFavorites array, push into dataFavorites array
     clickedAnime.classList.add('faved');
+    animeStar.classList.add('highlighted');
+    animeTitle.classList.add('highlighted');
     dataFavorites.push(favedAnime);
   } else {
     // 2. If the anime already is in dataFavorites array, it doesn't push again. Instead, it removes the item and removes 'faved' class
     clickedAnime.classList.remove('faved');
+    animeStar.classList.remove('highlighted');
+    animeTitle.classList.remove('highlighted');
     const removeAnimeIndex = dataFavorites.indexOf(savedAnime);
     dataFavorites.splice(removeAnimeIndex, 1);
   }
@@ -113,10 +118,9 @@ function renderFavorites() {
   favMovies.innerHTML = '';
 
   for (const eachFavorite of dataFavorites) {
-    favMovies.innerHTML += `<li class="js_favoritesLi favorites-li" data-id="${eachFavorite.mal_id}">
-    <img src=${eachFavorite.image_url} alt="Cover image of ${eachFavorite.title}" class="faved-img">
-    <h3>${eachFavorite.title}</h3>
-    <i class="fas fa-star"></i>
+    favMovies.innerHTML += `<li class="js_favoritesLi favmovie" data-id="${eachFavorite.mal_id}">
+    <img src=${eachFavorite.image_url} alt="Cover image of ${eachFavorite.title}" class="favmovie__img">
+    <h3 class="favmovie__title">${eachFavorite.title}</h3>
     <i class="fas fa-times-circle js_closeBtn"></i>
     </li>`;
     // console.log(eachFavorite.image_url.includes('qm_50'));
@@ -124,7 +128,7 @@ function renderFavorites() {
 
   if (dataFavorites.length >= 1) {
     favMovies.innerHTML +=
-      '<button class="js_deleteAllFavs">Delete All Favorites</button>';
+      '<button class="js_deleteAllFavs delete-button"><i class="far fa-trash-alt"></i>Borrar todo</button>';
     deleteAllFavorites();
   }
   removeFavorite();

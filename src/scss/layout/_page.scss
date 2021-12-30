@@ -1,24 +1,17 @@
 body {
-  padding: 2rem;
   height: 100vh;
+  background-color: black;
 }
 
-.movies-section {
-  display: flex;
-  flex-direction: row;
-  min-height: 100vh;
-}
-
-.favorites {
-  width: 40%;
-  background-color: palegoldenrod;
-  padding: 10px;
-  margin: 5px;
-}
-
-.results {
-  width: 60%;
-  background-color: pink;
-  padding: 10px;
-  margin: 5px;
+.title {
+  width: 100%;
+  font-family: $pressStart;
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
+  text-transform: uppercase;
+  padding: 20px 20px 10px 20px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border-top: 2px solid $darkGrey;
 }

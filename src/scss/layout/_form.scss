@@ -1,0 +1,37 @@
+.form {
+  display: flex;
+  border-bottom: 2px solid $darkGrey;
+  width: 100%;
+  padding: 0 20px 20px 20px;
+  &__input {
+    background-color: $darkGrey;
+    height: 35px;
+    flex-grow: 1;
+    font-size: 16px;
+    color: white;
+    padding: 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 5px;
+    &::placeholder {
+      color: gray;
+    }
+  }
+  &__search,
+  &__reset {
+    background-color: $mainIntense;
+    width: 100px;
+    height: 35px;
+    font-size: 16px;
+    color: white;
+    margin: 0 5px;
+    border: none;
+    border-radius: 35px;
+  }
+  &__search:hover,
+  &__reset:hover {
+    background-color: $mainMedium;
+    transform: scale(1.05);
+    transition: background-color 0.5s ease, transform 0.2s ease;
+  }
+}
