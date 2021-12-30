@@ -30,6 +30,21 @@ function renderAnimeList() {
   // If everything goes right, movies should show in the list
   movieList.innerHTML = '';
 
+  // Make faved series in the 'Resultados' article appear with class 'faved
+  // for (let indexResult = 0; indexResult < dataAnime.length; indexResult++) {
+  //   const eachResultId = dataAnime[indexResult].mal_id;
+
+  //   for (const eachFavorite of dataFavorites) {
+  //     if (eachFavorite.mal_id === eachResultId) {
+  //       console.log(dataAnime[indexResult]);
+  //     }
+  //   }
+  // const comparedArrs = dataFavorites.find(
+  //   (eachFavorite) => eachFavorite.mal_id === eachResultId
+  // );
+  // console.log(comparedArrs);
+  // }
+
   for (const eachAnime of dataAnime) {
     // console.log(eachAnime.mal_id);
     movieList.innerHTML += `<li class="js_resultsLi results-li" data-id="${eachAnime.mal_id}">
@@ -74,7 +89,6 @@ function handleClickFavorite(ev) {
   const clickedAnime = ev.currentTarget;
   const clickedAnimeId = parseInt(ev.currentTarget.dataset.id);
 
-  clickedAnime.classList.add('faved');
   const favedAnime = dataAnime.find(
     (eachResult) => eachResult.mal_id === clickedAnimeId
   );
@@ -82,11 +96,18 @@ function handleClickFavorite(ev) {
     (eachFaved) => eachFaved.mal_id === clickedAnimeId
   );
 
+  // When we select an anime, it changes color and class. Then before adding to dataFavorites we verify:
   if (savedAnime === undefined) {
-    // If the anime is NOT in dataFavorites array, push into dataFavorites array
+    // 1. If the anime is NOT in dataFavorites array, push into dataFavorites array
+    clickedAnime.classList.add('faved');
     dataFavorites.push(favedAnime);
+  } else {
+    // 2. If the anime already is in dataFavorites array, it doesn't push again. Instead, it removes the item and removes 'faved' class
+    clickedAnime.classList.remove('faved');
+    const removeAnimeIndex = dataFavorites.indexOf(savedAnime);
+    dataFavorites.splice(removeAnimeIndex, 1);
   }
-  // If the anime already is in dataFavorites array, nothing happens
+
   saveInLS();
   renderFavorites();
 }
