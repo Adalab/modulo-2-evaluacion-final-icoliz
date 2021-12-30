@@ -30,28 +30,25 @@ function renderAnimeList() {
   // If everything goes right, movies should show in the list
   movieList.innerHTML = '';
 
-  // Make faved series in the 'Resultados' article appear with class 'faved
-  // for (let indexResult = 0; indexResult < dataAnime.length; indexResult++) {
-  //   const eachResultId = dataAnime[indexResult].mal_id;
-
-  //   for (const eachFavorite of dataFavorites) {
-  //     if (eachFavorite.mal_id === eachResultId) {
-  //       console.log(dataAnime[indexResult]);
-  //     }
-  //   }
-  // const comparedArrs = dataFavorites.find(
-  //   (eachFavorite) => eachFavorite.mal_id === eachResultId
-  // );
-  // console.log(comparedArrs);
-  // }
-
   for (const eachAnime of dataAnime) {
-    // console.log(eachAnime.mal_id);
-    movieList.innerHTML += `<li class="js_resultsLi results-li" data-id="${eachAnime.mal_id}">
-    <img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="result-img">
-    <h3>${eachAnime.title}</h3>
-    <i class="fas fa-star"></i>
-    </li>`;
+    // Compare 'favorites' and 'results'.
+    const storedInFavorites = dataFavorites.filter(
+      (dataFav) => dataFav.mal_id === eachAnime.mal_id
+    );
+    // If a faved element is in results array too, show them with 'faved' class. If not, show it without the class.
+    if (storedInFavorites.length !== 0) {
+      // Length determines whether an array has content or not (content is the faved object)
+      movieList.innerHTML += `<li class="js_resultsLi results-li faved" data-id="${eachAnime.mal_id}"><img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="result-img">
+        <h3>${eachAnime.title}</h3>
+        <i class="fas fa-star"></i>
+        </li>`;
+    } else {
+      movieList.innerHTML += `<li class="js_resultsLi results-li " data-id="${eachAnime.mal_id}"><img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="result-img">
+        <h3>${eachAnime.title}</h3>
+        <i class="fas fa-star"></i>
+        </li>`;
+    }
+    // Set a placeholder if the image is a question mark
     // console.log(eachAnime.image_url.includes('qm_50'));
   }
   addFavorite();
@@ -71,7 +68,6 @@ function handleClickSearch(ev) {
     movieList.innerHTML = 'Por favor, introduzca el nombre de la serie';
   } else {
     findMovie();
-    renderAnimeList();
   }
 }
 
@@ -153,14 +149,12 @@ function getFromLS() {
 
 getFromLS();
 
-// BONUS: Reset button
+// BONUS - Function to remove search and results
 function handleClickReset() {
   searchInput.value = '';
 }
 
 resetBtn.addEventListener('click', handleClickReset);
-
-// BONUS: Remove favorite from list
 
 function removeFavorite() {
   const allRemoveBtns = document.querySelectorAll('.js_closeBtn');
@@ -170,6 +164,7 @@ function removeFavorite() {
   }
 }
 
+// BONUS - Function to remove a single element from the favorites array
 function handleClickRemove(ev) {
   const selectedFavElementId = parseInt(
     ev.currentTarget.parentElement.dataset.id
@@ -184,8 +179,10 @@ function handleClickRemove(ev) {
   dataFavorites.splice(foundAnimeIndex, 1);
   saveInLS();
   renderFavorites();
+  renderAnimeList();
 }
 
+// BONUS - Functions to remove all elements from the favorites array
 function deleteAllFavorites() {
   const deleteAllFavsBtn = document.querySelector('.js_deleteAllFavs');
   deleteAllFavsBtn.addEventListener('click', handleClickDeleteAllFavs);
