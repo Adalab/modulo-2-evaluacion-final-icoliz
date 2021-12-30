@@ -1,20 +1,30 @@
 .movies-section {
   display: flex;
-  flex-direction: row;
-  min-height: 90vh;
+  min-height: calc(100vh - 120px);
   padding-bottom: 20px;
+  @include mobile {
+    flex-direction: column;
+  }
 }
 
 .favorites {
   background-color: rgba($color: white, $alpha: 0.1);
   width: 40%;
+  min-width: 320px;
   padding: 10px 20px 20px 20px;
+  @include mobile {
+    width: 100%;
+  }
   &__title {
     font-family: $openSans;
     font-weight: 400;
     font-size: 20px;
     color: $mainMedium;
     margin-bottom: 10px;
+    @include mobile {
+      margin: 20px;
+      text-align: center;
+    }
   }
   &__list {
     display: flex;
@@ -25,17 +35,27 @@
 .results {
   width: 60%;
   padding: 10px 20px;
+  @include mobile {
+    width: 100%;
+  }
   &__title {
     font-family: $openSans;
     font-weight: 400;
     font-size: 20px;
     color: white;
     margin-bottom: 10px;
+    @include mobile {
+      margin: 30px;
+      text-align: center;
+    }
   }
   &__list {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    @include mobile {
+      justify-content: center;
+    }
   }
 }
 
@@ -62,6 +82,7 @@
     color: white;
     padding: 0 10px;
     margin: 5px 0;
+    overflow: hidden;
   }
   &:hover {
     box-shadow: 0px 0px 15px 5px rgba($color: $sand, $alpha: 0.5);
@@ -89,6 +110,13 @@
     font-size: 16px;
     color: $mainPale;
     padding: 0 20px;
+  }
+  &__synopsis {
+    font-family: $openSans;
+    font-size: 12px;
+    font-weight: 300;
+    padding: 10px 20px;
+    color: white;
   }
   &:hover .fa-times-circle {
     transform: scale(1.05);
@@ -140,4 +168,11 @@
 
 .highlighted {
   color: $mainIntense;
+  transition: color 0.1s ease;
+}
+
+.error-msg {
+  font-family: $openSans;
+  font-size: 14px;
+  color: grey;
 }

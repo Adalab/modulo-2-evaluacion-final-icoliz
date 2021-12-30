@@ -55,7 +55,7 @@ function renderAnimeList() {
 function renderMessage() {
   // Message displayed in case no results matched the search
   movieList.innerHTML =
-    'No hay resultados para esta búsqueda, por favor introduzca otro nombre';
+    '<p class="error-msg">No hay resultados para esta búsqueda, por favor introduzca otro nombre</p>';
 }
 
 function handleClickSearch(ev) {
@@ -63,7 +63,8 @@ function handleClickSearch(ev) {
   ev.preventDefault();
 
   if (searchInput.value === '') {
-    movieList.innerHTML = 'Por favor, introduzca el nombre de la serie';
+    movieList.innerHTML =
+      '<p class="error-msg">Por favor, introduzca el nombre de la serie</p>';
   } else {
     findMovie();
   }
@@ -120,7 +121,8 @@ function renderFavorites() {
   for (const eachFavorite of dataFavorites) {
     favMovies.innerHTML += `<li class="js_favoritesLi favmovie" data-id="${eachFavorite.mal_id}">
     <img src=${eachFavorite.image_url} alt="Cover image of ${eachFavorite.title}" class="favmovie__img">
-    <h3 class="favmovie__title">${eachFavorite.title}</h3>
+    <div><h3 class="favmovie__title">${eachFavorite.title}</h3>
+    <p class="favmovie__synopsis">${eachFavorite.synopsis}</p></div>
     <i class="fas fa-times-circle js_closeBtn"></i>
     </li>`;
     // console.log(eachFavorite.image_url.includes('qm_50'));
@@ -196,4 +198,5 @@ function handleClickDeleteAllFavs() {
   dataFavorites = [];
   saveInLS();
   renderFavorites();
+  renderAnimeList();
 }

@@ -16,6 +16,9 @@
     &::placeholder {
       color: gray;
     }
+    @include mobile {
+      min-width: 50px;
+    }
   }
   &__search,
   &__reset {
