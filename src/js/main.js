@@ -121,7 +121,7 @@ function renderFavorites() {
   for (const eachFavorite of dataFavorites) {
     favMovies.innerHTML += `<li class="js_favoritesLi favmovie" data-id="${eachFavorite.mal_id}">
     <img src=${eachFavorite.image_url} alt="Cover image of ${eachFavorite.title}" class="favmovie__img">
-    <div><h3 class="favmovie__title">${eachFavorite.title}</h3>
+    <div class="favmovie-container"><h3 class="favmovie__title">${eachFavorite.title}</h3>
     <p class="favmovie__synopsis">${eachFavorite.synopsis}</p></div>
     <i class="fas fa-times-circle js_closeBtn"></i>
     </li>`;
