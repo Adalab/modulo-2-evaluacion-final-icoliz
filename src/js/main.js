@@ -13,7 +13,7 @@ let dataFavorites = [];
 
 function findMovie() {
   const inputValue = searchInput.value;
-  fetch(`https://api.jikan.moe/v3/search/anime?q=${inputValue}&limit=15`)
+  fetch(`https://api.jikan.moe/v3/search/anime?q=${inputValue}`)
     .then((response) => response.json())
     .then((data) => {
       dataAnime = data.results;
