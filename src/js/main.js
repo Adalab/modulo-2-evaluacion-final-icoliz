@@ -7,6 +7,9 @@ const resetBtn = document.querySelector('.js_resetBtn');
 const movieList = document.querySelector('.js_movieList');
 const favMovies = document.querySelector('.js_favMovies');
 
+const placeholder =
+  'https://via.placeholder.com/210x295/ffffff/666666/?text=Anime';
+
 // Fetch
 let dataAnime = [];
 let dataFavorites = [];
@@ -35,19 +38,33 @@ function renderAnimeList() {
     const storedInFavorites = dataFavorites.filter(
       (dataFav) => dataFav.mal_id === eachAnime.mal_id
     );
-    // If a faved element is in results array too, show them with 'faved' class. If not, show it without the class.
-    if (storedInFavorites.length !== 0) {
-      // Length determines whether an array has content or not (content is the faved object)
-      movieList.innerHTML += `<li class="js_resultsLi movie faved" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star highlighted"></i><img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="movie__img highlighted">
-        <h3 class="movie__title">${eachAnime.title}</h3>
-        </li>`;
-    } else {
-      movieList.innerHTML += `<li class="js_resultsLi movie" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star"></i><img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="movie__img js_animeTitle">
-        <h3 class="movie__title">${eachAnime.title}</h3>
-        </li>`;
-    }
-    // Set a placeholder if the image is a question mark
+
+    // Set a placeholder if the image is a question mark. Apply the placeholder only if the anime containes the default "?" image
     // console.log(eachAnime.image_url.includes('qm_50'));
+    if (!eachAnime.image_url.includes('qm_50')) {
+      // If a faved element is in results array too, show them with 'faved' class. If not, show it without the class.
+      if (storedInFavorites.length !== 0) {
+        // Length determines whether an array has content or not (content is the faved object)
+        movieList.innerHTML += `<li class="js_resultsLi movie faved" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star highlighted"></i><img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="movie__img highlighted">
+          <h3 class="movie__title">${eachAnime.title}</h3>
+          </li>`;
+      } else {
+        movieList.innerHTML += `<li class="js_resultsLi movie" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star"></i><img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="movie__img js_animeTitle">
+          <h3 class="movie__title">${eachAnime.title}</h3>
+          </li>`;
+      }
+    } else {
+      if (storedInFavorites.length !== 0) {
+        // Length determines whether an array has content or not (content is the faved object)
+        movieList.innerHTML += `<li class="js_resultsLi movie faved" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star highlighted"></i><img src=${placeholder} alt="Cover image of ${eachAnime.title}" class="movie__img highlighted">
+        <h3 class="movie__title">${eachAnime.title}</h3>
+      </li>`;
+      } else {
+        movieList.innerHTML += `<li class="js_resultsLi movie" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star"></i><img src=${placeholder} alt="Cover image of ${eachAnime.title}" class="movie__img js_animeTitle">
+        <h3 class="movie__title">${eachAnime.title}</h3>
+         </li>`;
+      }
+    }
   }
   addFavorite();
 }
@@ -119,13 +136,20 @@ function renderFavorites() {
   favMovies.innerHTML = '';
 
   for (const eachFavorite of dataFavorites) {
-    favMovies.innerHTML += `<li class="js_favoritesLi favmovie" data-id="${eachFavorite.mal_id}">
+    if (!eachFavorite.image_url.includes('qm_50')) {
+      favMovies.innerHTML += `<li class="js_favoritesLi favmovie" data-id="${eachFavorite.mal_id}">
     <img src=${eachFavorite.image_url} alt="Cover image of ${eachFavorite.title}" class="favmovie__img">
     <div class="favmovie-container"><h3 class="favmovie__title">${eachFavorite.title}</h3>
     <p class="favmovie__synopsis">${eachFavorite.synopsis}</p></div>
     <i class="fas fa-times-circle js_closeBtn"></i>
     </li>`;
-    // console.log(eachFavorite.image_url.includes('qm_50'));
+    } else {
+      favMovies.innerHTML += `<li class="js_favoritesLi favmovie" data-id="${eachFavorite.mal_id}">
+    <img src=${placeholder} alt="Cover image of ${eachFavorite.title}" class="favmovie__img">
+    <div class="favmovie-container"><h3 class="favmovie__title">${eachFavorite.title}</h3>
+    <p class="favmovie__synopsis">${eachFavorite.synopsis}</p></div>
+    <i class="fas fa-times-circle js_closeBtn"></i>`;
+    }
   }
 
   if (dataFavorites.length >= 1) {
