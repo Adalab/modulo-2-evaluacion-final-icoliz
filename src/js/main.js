@@ -39,11 +39,10 @@ function renderAnimeList() {
       (dataFav) => dataFav.mal_id === eachAnime.mal_id
     );
 
-    // Set a placeholder if the image is a question mark. Apply the placeholder only if the anime containes the default "?" image
-    // console.log(eachAnime.image_url.includes('qm_50'));
     if (!eachAnime.image_url.includes('qm_50')) {
-      // If a faved element is in results array too, show them with 'faved' class. If not, show it without the class.
+      // Set a placeholder if the image is a question mark. If the image url contains "qm_50" (the text in the given placeholder)
       if (storedInFavorites.length !== 0) {
+        // If a faved element is in results array too, show them with 'faved' class. If not, show it without the class.
         // Length determines whether an array has content or not (content is the faved object)
         movieList.innerHTML += `<li class="js_resultsLi movie faved" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star highlighted"></i><img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="movie__img highlighted">
           <h3 class="movie__title">${eachAnime.title}</h3>
@@ -55,14 +54,13 @@ function renderAnimeList() {
       }
     } else {
       if (storedInFavorites.length !== 0) {
-        // Length determines whether an array has content or not (content is the faved object)
         movieList.innerHTML += `<li class="js_resultsLi movie faved" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star highlighted"></i><img src=${placeholder} alt="Cover image of ${eachAnime.title}" class="movie__img highlighted">
         <h3 class="movie__title">${eachAnime.title}</h3>
-      </li>`;
+        </li>`;
       } else {
         movieList.innerHTML += `<li class="js_resultsLi movie" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star"></i><img src=${placeholder} alt="Cover image of ${eachAnime.title}" class="movie__img js_animeTitle">
         <h3 class="movie__title">${eachAnime.title}</h3>
-         </li>`;
+        </li>`;
       }
     }
   }
