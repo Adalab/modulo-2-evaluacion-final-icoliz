@@ -13,6 +13,7 @@ const placeholder =
 // Fetch
 let dataAnime = [];
 let dataFavorites = [];
+const movieType = ['OVA', 'Special'];
 
 function findMovie() {
   const inputValue = searchInput.value;
@@ -20,6 +21,7 @@ function findMovie() {
     .then((response) => response.json())
     .then((data) => {
       dataAnime = data.results;
+
       if (dataAnime !== undefined) {
         renderAnimeList();
       } else {
@@ -34,10 +36,22 @@ function renderAnimeList() {
   movieList.innerHTML = '';
 
   for (const eachAnime of dataAnime) {
+    console.log(eachAnime.type);
+
     // Compare 'favorites' and 'results'.
     const storedInFavorites = dataFavorites.filter(
       (dataFav) => dataFav.mal_id === eachAnime.mal_id
     );
+
+    const specialMov = movieType.includes(eachAnime.type);
+    if (specialMov) {
+      movieList.innerHTML += `<li class="js_resultsLi movie faved" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star highlighted"></i><img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="movie__img highlighted">
+          <h3 class="movie__title">${eachAnime.title}</h3>
+          <p>Special Movie</p>
+          </li>`;
+    }
+
+    // console.log(dataAnime.find());
 
     if (!eachAnime.image_url.includes('qm_50')) {
       // Set a placeholder if the image is a question mark. If the image url contains "qm_50" (the text in the given placeholder)
@@ -112,10 +126,11 @@ function handleClickFavorite(ev) {
   // When we select an anime, it changes color and class. Then before adding to dataFavorites we verify:
   if (savedAnime === undefined) {
     // 1. If the anime is NOT in dataFavorites array, push into dataFavorites array
-    clickedAnime.classList.add('faved');
-    animeStar.classList.add('highlighted');
-    animeTitle.classList.add('highlighted');
-    dataFavorites.push(favedAnime);
+    // clickedAnime.classList.add('faved');
+    // animeStar.classList.add('highlighted');
+    // animeTitle.classList.add('highlighted');
+    // dataFavorites.push(favedAnime);
+    console.log(favedAnime.title);
   } else {
     // 2. If the anime already is in dataFavorites array, it doesn't push again. Instead, it removes the item and removes 'faved' class
     clickedAnime.classList.remove('faved');
