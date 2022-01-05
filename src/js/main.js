@@ -13,7 +13,6 @@ const placeholder =
 // Fetch
 let dataAnime = [];
 let dataFavorites = [];
-const movieType = ['OVA', 'Special'];
 
 function findMovie() {
   const inputValue = searchInput.value;
@@ -36,47 +35,20 @@ function renderAnimeList() {
   movieList.innerHTML = '';
 
   for (const eachAnime of dataAnime) {
-    console.log(eachAnime.type);
-
     // Compare 'favorites' and 'results'.
     const storedInFavorites = dataFavorites.filter(
       (dataFav) => dataFav.mal_id === eachAnime.mal_id
     );
 
-    const specialMov = movieType.includes(eachAnime.type);
-    if (specialMov) {
-      movieList.innerHTML += `<li class="js_resultsLi movie faved" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star highlighted"></i><img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="movie__img highlighted">
-          <h3 class="movie__title">${eachAnime.title}</h3>
-          <p>Special Movie</p>
-          </li>`;
-    }
-
-    // console.log(dataAnime.find());
-
-    if (!eachAnime.image_url.includes('qm_50')) {
-      // Set a placeholder if the image is a question mark. If the image url contains "qm_50" (the text in the given placeholder)
-      if (storedInFavorites.length !== 0) {
-        // If a faved element is in results array too, show them with 'faved' class. If not, show it without the class.
-        // Length determines whether an array has content or not (content is the faved object)
-        movieList.innerHTML += `<li class="js_resultsLi movie faved" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star highlighted"></i><img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="movie__img highlighted">
-          <h3 class="movie__title">${eachAnime.title}</h3>
-          </li>`;
-      } else {
-        movieList.innerHTML += `<li class="js_resultsLi movie" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star"></i><img src=${eachAnime.image_url} alt="Cover image of ${eachAnime.title}" class="movie__img js_animeTitle">
-          <h3 class="movie__title">${eachAnime.title}</h3>
-          </li>`;
-      }
-    } else {
-      if (storedInFavorites.length !== 0) {
-        movieList.innerHTML += `<li class="js_resultsLi movie faved" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star highlighted"></i><img src=${placeholder} alt="Cover image of ${eachAnime.title}" class="movie__img highlighted">
-        <h3 class="movie__title">${eachAnime.title}</h3>
-        </li>`;
-      } else {
-        movieList.innerHTML += `<li class="js_resultsLi movie" data-id="${eachAnime.mal_id}"><i class="fas fa-star js_star"></i><img src=${placeholder} alt="Cover image of ${eachAnime.title}" class="movie__img js_animeTitle">
-        <h3 class="movie__title">${eachAnime.title}</h3>
-        </li>`;
-      }
-    }
+    movieList.innerHTML += `<li class="js_resultsLi movie ${
+      storedInFavorites.length !== 0 ? 'faved' : ''
+    }" data-id=${eachAnime.mal_id}><i class="fas fa-star js_star ${
+      storedInFavorites.length !== 0 ? 'highlighted' : ''
+    }"></i><img src=${
+      !eachAnime.image_url.includes('qm_50') ? eachAnime.image_url : placeholder
+    } alt="Cover image of ${eachAnime.title}" class="movie__img ${
+      storedInFavorites.length !== 0 ? 'highlighted' : ''
+    }"><h3 class="movie__title">${eachAnime.title}</h3></li>`;
   }
   addFavorite();
 }
@@ -112,7 +84,7 @@ function handleClickFavorite(ev) {
   // Finding the anime I'm clicking on in my dataAnime array through data-ID
   const clickedAnime = ev.currentTarget;
   const animeStar = ev.currentTarget.childNodes[0];
-  const animeTitle = ev.currentTarget.childNodes[3];
+  const animeTitle = ev.currentTarget.childNodes[2];
 
   const clickedAnimeId = parseInt(ev.currentTarget.dataset.id);
 
@@ -126,11 +98,11 @@ function handleClickFavorite(ev) {
   // When we select an anime, it changes color and class. Then before adding to dataFavorites we verify:
   if (savedAnime === undefined) {
     // 1. If the anime is NOT in dataFavorites array, push into dataFavorites array
-    // clickedAnime.classList.add('faved');
-    // animeStar.classList.add('highlighted');
-    // animeTitle.classList.add('highlighted');
-    // dataFavorites.push(favedAnime);
-    console.log(favedAnime.title);
+
+    clickedAnime.classList.add('faved');
+    animeStar.classList.add('highlighted');
+    animeTitle.classList.add('highlighted');
+    dataFavorites.push(favedAnime);
   } else {
     // 2. If the anime already is in dataFavorites array, it doesn't push again. Instead, it removes the item and removes 'faved' class
     clickedAnime.classList.remove('faved');
@@ -149,20 +121,19 @@ function renderFavorites() {
   favMovies.innerHTML = '';
 
   for (const eachFavorite of dataFavorites) {
-    if (!eachFavorite.image_url.includes('qm_50')) {
-      favMovies.innerHTML += `<li class="js_favoritesLi favmovie" data-id="${eachFavorite.mal_id}">
-    <img src=${eachFavorite.image_url} alt="Cover image of ${eachFavorite.title}" class="favmovie__img">
-    <div class="favmovie-container"><h3 class="favmovie__title">${eachFavorite.title}</h3>
-    <p class="favmovie__synopsis">${eachFavorite.synopsis}</p></div>
-    <i class="fas fa-times-circle js_closeBtn"></i>
+    favMovies.innerHTML += `<li class="js_favoritesLi favmovie" data-id=${
+      eachFavorite.mal_id
+    }><img src=${
+      !eachFavorite.image_url.includes('qm_50')
+        ? eachFavorite.image_url
+        : placeholder
+    } alt="Cover image of ${eachFavorite.title}" class="favmovie__img">
+    <div class="favmovie-container"><h3 class="favmovie__title">${
+      eachFavorite.title
+    }</h3><p class="favmovie__synopsis">${
+      eachFavorite.synopsis
+    }</p></div><i class="fas fa-times-circle js_closeBtn"></i>
     </li>`;
-    } else {
-      favMovies.innerHTML += `<li class="js_favoritesLi favmovie" data-id="${eachFavorite.mal_id}">
-    <img src=${placeholder} alt="Cover image of ${eachFavorite.title}" class="favmovie__img">
-    <div class="favmovie-container"><h3 class="favmovie__title">${eachFavorite.title}</h3>
-    <p class="favmovie__synopsis">${eachFavorite.synopsis}</p></div>
-    <i class="fas fa-times-circle js_closeBtn"></i>`;
-    }
   }
 
   if (dataFavorites.length >= 1) {
