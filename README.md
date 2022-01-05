@@ -9,7 +9,7 @@ _Nota: el valor introducido debe tener más de dos caracteres. Los resultados de
 ### Búsqueda
 
 Los resultados de la búsqueda se mostrarán en la columna derecha, bajo el título "resultados", con su respectiva imagen y título.
-_Nota importante: las imágenes que contienen el placeholder por defecto (un cuadrado de 50x50 con un símbolo de exclamación han sido sustituidos por un placeholder propio con la palabra "Anime". Esto se ha hecho como comprobación por la posibilidad de que en el futuro una API no devolviera imagen_
+_Nota importante: las imágenes que contienen el placeholder por defecto (un cuadrado de 50x50 con un símbolo de exclamación) han sido sustituidos por un placeholder propio con la palabra "Anime". Esto se ha hecho como comprobación por la posibilidad de que en el futuro una API no devolviera imagen_
 Al hacer click en cualquiera de ellas:
 
 ### Favoritos
