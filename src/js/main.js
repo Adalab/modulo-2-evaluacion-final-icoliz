@@ -40,6 +40,9 @@ function renderAnimeList() {
       (dataFav) => dataFav.mal_id === eachAnime.mal_id
     );
 
+    // Set a placeholder if the image is a question mark. If the image url contains "qm_50" (the text in the given placeholder)
+    // If a faved element is in results array too, show them with 'faved' class. If not, show it without the class.
+    // Length determines whether an array has content or not (content is the faved object)
     movieList.innerHTML += `<li class="js_resultsLi movie ${
       storedInFavorites.length !== 0 ? 'faved' : ''
     }" data-id=${eachAnime.mal_id}><i class="fas fa-star js_star ${
